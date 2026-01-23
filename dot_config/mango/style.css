@@ -1,0 +1,43 @@
+@define-color bg #0f1112;
+@define-color muted #9aa0a6;
+@define-color accent #8ab4f8;
+@define-color danger #ef5e5e;
+@define-color text #e6eef6;
+
+#waybar {
+  background-color: @bg;
+  color: @text;
+  font-family: "Inter", "Noto Sans", sans-serif;
+  font-size: 13px;
+}
+
+#workspaces button {
+  padding: 0 8px;
+  color: @muted;
+}
+
+#workspaces button.active {
+  background-color: @accent;
+  color: @bg;
+  border-radius: 4px;
+}
+
+#battery,
+#cpu,
+#memory,
+#pulseaudio {
+  padding: 0 10px;
+}
+
+#pulseaudio.muted {
+  color: @muted;
+}
+
+#battery.critical {
+  color: @danger;
+}
+
+#waybar .module:hover {
+  background-color: rgba(255,255,255,0.03);
+  border-radius: 4px;
+}
