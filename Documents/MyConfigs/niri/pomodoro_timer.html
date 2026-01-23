@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Pomodoro Timer</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font import */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.5s ease-in-out;
+        }
+        /* Specific styles for the countdown text */
+        #countdown {
+            font-size: 8rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        /* Styles for the buzzer sound */
+        .buzzing {
+            animation: buzz-pulse 0.5s infinite alternate;
+        }
+        @keyframes buzz-pulse {
+            0% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+            100% { transform: scale(1.02); box-shadow: 0 0 20px rgba(255, 255, 255, 1); }
+        }
+    </style>
+</head>
+<body class="h-screen flex items-center justify-center bg-gray-900 text-white transition-all duration-500">
+
+    <div id="app-container" class="w-full max-w-lg p-8 mx-4 sm:p-10 rounded-3xl shadow-2xl text-center backdrop-blur-sm bg-gray-800/70 border border-gray-700">
+        
+        <h1 class="text-3xl font-bold mb-2" id="status-title">Pomodoro Timer</h1>
+        <p class="text-gray-400 mb-8" id="cycle-info">Ready to Start</p>
+
+        <!-- Countdown Display -->
+        <div class="mb-10 p-6 rounded-2xl bg-gray-700 shadow-inner">
+            <div id="countdown" class="text-red-400 select-none">50:00</div>
+        </div>
+
+        <!-- Control Buttons -->
+        <div class="flex justify-center space-x-4">
+            <button id="start-btn" 
+                    class="px-8 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl shadow-lg transition duration-200 focus:outline-none focus:ring-4 focus:ring-green-500/50 active:scale-95">
+                Start
+            </button>
+            <button id="pause-btn" 
+                    class="px-8 py-3 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-xl shadow-lg transition duration-200 focus:outline-none focus:ring-4 focus:ring-yellow-500/50 active:scale-95" 
+                    disabled>
+                Pause
+            </button>
+            <button id="stop-btn" 
+                    class="px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl shadow-lg transition duration-200 focus:outline-none focus:ring-4 focus:ring-red-500/50 active:scale-95" 
+                    disabled>
+                Stop
+            </button>
+        </div>
+
+        <!-- Message Box for user feedback -->
+        <div id="message-box" class="mt-8 text-sm text-gray-300 h-6"></div>
+    </div>
+
+    <script>
+        // --- CONSTANTS ---
+        // All times are in seconds
+        const TIME_WORK = 50 * 60;
+        const TIME_SHORT_BREAK = 10 * 60;
+        const TIME_LONG_BREAK = 30 * 60;
+        const CYCLES_PER_LONG_BREAK = 4;
+        
+        // --- STATE ---
+        let timer; // Interval reference
+        let timeLeft = TIME_WORK; // Current time remaining in seconds
+        let isPaused = true;
+        let currentCycle = 1; // 1 to 4
+        let currentPhase = 'Work'; // 'Work', 'ShortBreak', 'LongBreak'
+
+        // --- DOM Elements ---
+        const countdownEl = document.getElementById('countdown');
+        const statusTitleEl = document.getElementById('status-title');
+        const cycleInfoEl = document.getElementById('cycle-info');
+        const startBtn = document.getElementById('start-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const bodyEl = document.body;
+        const containerEl = document.getElementById('app-container');
+        const messageBoxEl = document.getElementById('message-box');
+
+        // --- AUDIO FUNCTION (Buzzer) ---
+        function playBuzzer() {
+            // Uses Web Audio API for a reliable, simple, and customizable beep sound
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const audioCtx = new AudioContext();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                // Set parameters for a clear, loud beep
+                oscillator.type = 'square';
+                oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // A4 note
+                gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime); 
+
+                oscillator.start();
+                
+                // Fade out and stop the sound after 1.0 seconds
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.0);
+                oscillator.stop(audioCtx.currentTime + 1.0);
+
+                // Add visual feedback
+                containerEl.classList.add('buzzing');
+                setTimeout(() => containerEl.classList.remove('buzzing'), 1000);
+
+            } catch (e) {
+                console.error("Web Audio API not supported or failed to start:", e);
+                showMessage("Buzzer sound failed to play. Check console for details.");
+            }
+        }
+
+        // --- DISPLAY FUNCTIONS ---
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        }
+
+        function updateDisplay() {
+            countdownEl.textContent = formatTime(timeLeft);
+            
+            // Update UI based on phase
+            if (currentPhase === 'Work') {
+                statusTitleEl.textContent = 'Focus Session';
+                bodyEl.className = bodyEl.className.replace(/bg-green-.*|bg-blue-.*/, 'bg-red-900');
+                countdownEl.className = countdownEl.className.replace(/text-green-.*|text-blue-.*/, 'text-red-400');
+            } else if (currentPhase === 'ShortBreak') {
+                statusTitleEl.textContent = 'Short Break';
+                bodyEl.className = bodyEl.className.replace(/bg-red-.*|bg-blue-.*/, 'bg-green-900');
+                countdownEl.className = countdownEl.className.replace(/text-red-.*|text-blue-.*/, 'text-green-400');
+            } else if (currentPhase === 'LongBreak') {
+                statusTitleEl.textContent = 'Long Break - Recharge!';
+                bodyEl.className = bodyEl.className.replace(/bg-red-.*|bg-green-.*/, 'bg-blue-900');
+                countdownEl.className = countdownEl.className.replace(/text-red-.*|text-green-.*/, 'text-blue-400');
+            }
+
+            // Update cycle information
+            if (currentPhase !== 'LongBreak') {
+                cycleInfoEl.textContent = `Cycle ${currentCycle} of ${CYCLES_PER_LONG_BREAK}`;
+            } else {
+                cycleInfoEl.textContent = `Time to relax. Next focus: Cycle 1.`;
+            }
+        }
+        
+        function showMessage(text) {
+            messageBoxEl.textContent = text;
+            setTimeout(() => { messageBoxEl.textContent = '' }, 3000);
+        }
+
+        // --- TIMER LOGIC ---
+        function startTimer() {
+            if (!isPaused) return;
+            isPaused = false;
+            
+            startBtn.disabled = true;
+            pauseBtn.disabled = false;
+            stopBtn.disabled = false;
+            
+            updateDisplay();
+
+            timer = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    transitionPhase();
+                } else {
+                    timeLeft--;
+                    updateDisplay();
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            if (isPaused) return;
+            isPaused = true;
+            clearInterval(timer);
+            startBtn.disabled = false;
+            pauseBtn.disabled = true;
+            statusTitleEl.textContent = `${statusTitleEl.textContent} (PAUSED)`;
+            showMessage("Timer paused.");
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            isPaused = true;
+            currentCycle = 1;
+            currentPhase = 'Work';
+            timeLeft = TIME_WORK;
+            
+            startBtn.disabled = false;
+            pauseBtn.disabled = true;
+            stopBtn.disabled = true;
+            
+            updateDisplay();
+            bodyEl.className = 'h-screen flex items-center justify-center bg-gray-900 text-white transition-all duration-500';
+            countdownEl.className = 'text-red-400 select-none';
+            statusTitleEl.textContent = 'Pomodoro Timer';
+            cycleInfoEl.textContent = 'Ready to Start';
+            showMessage("Timer reset. Ready for new session.");
+        }
+
+        function transitionPhase() {
+            playBuzzer();
+            
+            let nextPhase;
+            let nextTime;
+            let nextCycle = currentCycle;
+
+            if (currentPhase === 'Work') {
+                if (currentCycle < CYCLES_PER_LONG_BREAK) {
+                    // Next is Short Break
+                    nextPhase = 'ShortBreak';
+                    nextTime = TIME_SHORT_BREAK;
+                } else {
+                    // Next is Long Break
+                    nextPhase = 'LongBreak';
+                    nextTime = TIME_LONG_BREAK;
+                }
+            } else if (currentPhase === 'ShortBreak') {
+                // Short break is over, increment cycle and start work
+                nextCycle++;
+                nextPhase = 'Work';
+                nextTime = TIME_WORK;
+            } else if (currentPhase === 'LongBreak') {
+                // Long break is over, reset cycle count and start work
+                nextCycle = 1;
+                nextPhase = 'Work';
+                nextTime = TIME_WORK;
+            }
+
+            // Update state
+            currentPhase = nextPhase;
+            timeLeft = nextTime;
+            currentCycle = nextCycle;
+            
+            // Automatically restart the timer for the new phase
+            isPaused = true; // Set to true temporarily so startTimer runs
+            startTimer();
+            showMessage(`Transitioned to ${statusTitleEl.textContent}!`);
+        }
+
+        // --- EVENT LISTENERS ---
+        startBtn.addEventListener('click', startTimer);
+        pauseBtn.addEventListener('click', pauseTimer);
+        stopBtn.addEventListener('click', resetTimer);
+
+        // Initialize display on load
+        updateDisplay(); 
+        
+    </script>
+</body>
+</html>

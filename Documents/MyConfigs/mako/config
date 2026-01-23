@@ -1,0 +1,20 @@
+font=monospace 10
+background-color=#222222FF
+text-color=#EEEEEEFF
+border-radius=8
+border-size=0
+padding=8
+margin=10
+width=300
+icon-border-radius=4
+
+anchor=top-right
+
+default-timeout=10000
+ignore-timeout=0
+max-visible=5
+group-by=summary
+
+[urgency=critical]
+ignore-timeout=1
+
