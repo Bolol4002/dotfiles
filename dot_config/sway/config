@@ -20,9 +20,9 @@ include /etc/sway/config-vars.d/*
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg /home/sayooj/.config/sway/wallpaper1.jpg fill
 
-### Gaps configuration
-gaps inner 5
-gaps outer 5
+###  configuration
+gaps inner 2
+gaps outer 2
 
 ### Autostart Waybar
 exec_always waybar
@@ -168,17 +168,7 @@ bindsym F2 exec brightnessctl set 10%-
 bindsym F3 exec brightnessctl set +10%
 
 #
-# Status Bar:
-#
-# (Disabled swaybar to use waybar)
-# bar {
-#     position top
-#     status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
-#     colors {
-#         statusline #ffffff
-#         background #323232
-#         inactive_workspace #32323200 #32323200 #5c5c5c
-#     }
-# }
+default_border pixel 2
+client.focused "#ffffff" "#ffffff" "#000000"
 
 include /etc/sway/config.d/*
