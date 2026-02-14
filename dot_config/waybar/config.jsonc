@@ -1,0 +1,53 @@
+// Minimal black & white Waybar config
+{
+  "layer": "top",
+  "position": "top",
+  "height": 28,
+  "spacing": 6,
+
+  "modules-left": ["sway/workspaces"],
+  "modules-center": ["clock"],
+  "modules-right": ["cpu", "memory", "battery", "pulseaudio"],
+
+  // Workspaces: show only the workspace name/number (no icons)
+  "sway/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": false,
+    "format": "{name}",
+    "sort-by-number": true
+  },
+
+  // Clock: numeric date and time with :: separator
+  "clock": {
+    "format": "{:%Y-%m-%d :: %H:%M}",
+    "tooltip": false
+  },
+
+  // CPU: show percentage only
+  "cpu": {
+    "format": "cpu-{usage}% ::",
+    "tooltip": false,
+    "interval": 2
+  },
+
+  // Memory: show used percentage only
+  "memory": {
+    "format": "mem-{used_percent}% ::",
+    "tooltip": false,
+    "interval": 5
+  },
+
+  // Battery: show capacity percentage only
+  "battery": {
+    "format": "bat-{capacity}% ::",
+    "format-charging": "{capacity}%",
+    "tooltip": false
+  },
+
+  // Volume (pulseaudio): show percentage only
+  "pulseaudio": {
+    "format": "vol-{volume}% ::",
+    "format-muted": "0%",
+    "tooltip": false
+  }
+}
