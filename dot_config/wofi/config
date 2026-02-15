@@ -1,6 +1,8 @@
-allow_images=true
-hide_scroll=true
-no_actions=false
-term=alacritty
-mode=drun
---show
+width=400px
+height=300px
+orientation=vertical
+halign=center
+valign=center
+allow_markup=true
+allow_images=false
+css=/home/sayooj/.config/wofi/style.css
