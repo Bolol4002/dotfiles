@@ -1,0 +1,65 @@
+[global]
+    monitor = 0
+    width = 300               # fixed width
+    height = 80
+    origin = top-right        # top-right corner
+    offset = 20x20            # distance from top/right edges
+    geometry = "300x80-5+60"         # enforce width x height
+    notification_limit = 5
+    horizontal_alignment = right  # stack neatly on right
+    scale = 0
+
+    ### appearance ###
+    transparency = 0
+    corner_radius = 12
+    frame_width = 2
+    gap_size = 8
+    padding = 12
+    horizontal_padding = 12
+    separator_height = 2
+
+    ### text ###
+    font = JetBrainsMono Nerd Font 10
+    line_height = 0
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    word_wrap = yes
+    ellipsize = middle
+
+    ### icons ###
+    icon_position = left
+    min_icon_size = 32
+    max_icon_size = 48
+
+    ### behavior ###
+    idle_threshold = 120
+    sort = yes
+    shrink = no
+    sticky_history = yes
+    history_length = 20
+    indicate_hidden = yes
+
+    ### mouse ###
+    mouse_left_click = close_current
+    mouse_middle_click = do_action
+    mouse_right_click = close_all
+
+[urgency_low]
+    background = "#000000"
+    foreground = "#FFFFFF"
+    frame_color = "#FFFFFF"
+    timeout = 3
+
+[urgency_normal]
+    background = "#000000"
+    foreground = "#FFFFFF"
+    frame_color = "#FFFFFF"
+    timeout = 5
+
+[urgency_critical]
+    background = "#000000"
+    foreground = "#FFFFFF"
+    frame_color = "#FFFFFF"
+    timeout = 0
+
