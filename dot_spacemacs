@@ -45,15 +45,16 @@ This function should only modify configuration layer settings."
      syntax-checking
      ;; better-defaults
      emacs-lisp
-     ;; git
      helm
      ;; lsp
-     ;; markdown
+     markdown
      multiple-cursors
      ;; org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
+     (shell :variables
+            shell-default-shell 'ansi-term
+            shell-default-term-shell "/bin/bash"
+            shell-default-position 'bottom
+            shell-default-height 30)
      ;; spell-checking
      ;; syntax-checking
      ;; version-control

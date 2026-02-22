@@ -2,6 +2,10 @@
 #
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
+bindsym Print exec grimshot save screen
+bindsym Shift+Print exec grimshot save area
+bindsym Ctrl+Print exec grimshot copy area
+
 # Home row direction keys, like vim
 set $left h
 set $down j
@@ -18,7 +22,7 @@ include /etc/sway/config-vars.d/*
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /home/sayooj/.config/sway/wallpaper1.jpg fill
+output * bg /home/sayooj/.config/sway/cat.png fill
 
 ###  configuration
 gaps inner 2
@@ -34,10 +38,10 @@ bindsym $mod+Shift+b exec pkill -USR1 waybar
 #
 # Example configuration:
 #
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-#          before-sleep 'swaylock -f -c 000000'
+ exec swayidle -w \
+          timeout 300 'swaylock -f -c 000000' \
+          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+          before-sleep 'swaylock -f -c 000000'
 
 ### Input configuration
 #
