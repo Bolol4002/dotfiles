@@ -29,9 +29,10 @@
   - [[#source-code-block-tag-expansion][Source Code Block Tag Expansion]]
 - [[#sudo-edit][SUDO EDIT]]
 - [[#which-key][WHICH-KEY]]
-- [[#theme][THEME]]
 - [[#zooming-inout][Zooming In/Out]]
 - [[#rainbow-mode][RAINBOW MODE]]
+- [[#theme][THEME]]
+- [[#app-launcher][App-Launcher]]
 
 * IMPORTANT PROGRAMS TO LOAD FIRST
 ** Elpaca Package Manager
@@ -563,16 +564,6 @@ Org-tempo is not a separate package but a module within org that can be enabled.
           which-key-separator " → ")))
 #+end_src
 
-* THEME
-The first of the two lines below designates the directory where will place all of our themes.  The second line loads our chosen theme which is *dtmacs*, a theme that I created with the help of the [[https://emacsfodder.github.io/emacs-theme-editor/][Emacs Theme Editor]].
-
-#+begin_src emacs-lisp
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(if (custom-theme-p 'sayooj)
-    (load-theme 'sayooj t)
-  (load-theme 'manoj-dark t))
-#+end_src
-
 
 * Zooming In/Out
 You can use the bindings CTRL plus =/- for zooming in/out.  You can also use CTRL plus the mouse wheel for zooming in/out.
@@ -593,3 +584,38 @@ Display the actual color as a background for any hex color value (ex. #ffffff). 
     :hook ((org-mode prog-mode) . rainbow-mode)))
 #+end_src
 
+* THEME
+The first of the two lines below designates the directory where will place all of our themes.  The second line loads our chosen theme which is *dtmacs*, a theme that I created with the help of the [[https://emacsfodder.github.io/emacs-theme-editor/][Emacs Theme Editor]].
+
+#+begin_src emacs-lisp
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(load-theme 'sayooj t)
+#+end_src
+
+* App-Launcher
+The =app-launcher= is a better run launcher since it reads the desktop applications on your system and you can search them by their names as defined in their desktop file.  This means that sometimes you have to search for a generic term rather than the actual binary command of the program.
+
+#+begin_src emacs-lisp
+(use-package app-launcher
+  :elpaca '(app-launcher :host github :repo "SebastienWae/app-launcher"))
+;; create a global keyboard shortcut with the following code
+;; emacsclient -cF "((visibility . nil))" -e "(emacs-run-launcher)"
+
+(defun emacs-run-launcher ()
+ (interactive)
+  (with-selected-frame 
+    (make-frame '((name . "emacs-run-launcher")
+                  (minibuffer . only)
+                  (fullscreen . 0) ; no fullscreen
+                  (undecorated . t) ; remove title bar
+                  ;;(auto-raise . t) ; focus on this frame
+                  ;;(tool-bar-lines . 0)
+                  ;;(menu-bar-lines . 0)
+                  (internal-border-width . 10)
+                  (width . 80)
+                  (height . 11)))
+                  (unwind-protect
+                    (app-launcher-run-app)
+                    (delete-frame))))
+
+#+end_src
