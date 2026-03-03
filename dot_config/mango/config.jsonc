@@ -8,11 +8,12 @@
     "pulseaudio",
     "cpu",
     "memory",
-    "battery"
+    "battery",
+    "clock"
   ],
 
   "pulseaudio": {
-    "format": "{icon} {volume}%",
+    "format": "{icon}   {volume}%",
     "format-muted": " muted",
     "format-icons": {
       "default": ["", ""]
@@ -32,6 +33,11 @@
     "format": "{capacity}% {icon}",
     "format-icons": ["", "", "", "", ""],
     "critical-low": 10
+  },
+
+  "clock": {
+    "format": "{:%Y-%m-%d %H:%M}",
+    "tooltip": false
   },
 
   "ext/workspaces": {
