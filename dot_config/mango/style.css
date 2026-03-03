@@ -1,55 +1,47 @@
-@define-color bg #0b0b0b;
-@define-color muted #9a9a9a;
-@define-color accent #bfbfbf;
-@define-color danger #7a7a7a;
-@define-color text #e6e6e6;
+/* Color definition for white text */
+@define-color active #ffffff;
 
-#waybar {
-  background-color: @bg;
-  color: @text;
-  font-family: "Inter", "Noto Sans", sans-serif;
-  font-size: 13px;
-  letter-spacing: 0.2px;
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font", sans-serif;
+    font-size: 14px;
+    color: @active;
 }
 
-#workspaces button {
-  padding: 0 8px;
-  color: @muted;
-  border-radius: 4px;
+window#waybar {
+    background: transparent;
 }
 
-#workspaces button.active {
-  background-color: rgba(191,191,191,0.14);
-  color: @text;
-  border-radius: 6px;
+/* Ensure all module groups are transparent */
+.modules-left, 
+.modules-right, 
+.modules-center {
+    background: transparent;
 }
 
+#tags button {
+    padding: 0 8px;
+    color: @active;
+}
+
+#tags button.focused {
+    border-bottom: 2px solid @active;
+}
+
+#clock,
 #battery,
+#pulseaudio,
+#network,
 #cpu,
 #memory,
-#pulseaudio {
-  padding: 0 10px;
+#disk,
+#temperature,
+#tray {
+    padding: 0 10px;
+    background: transparent;
 }
 
 #pulseaudio.muted {
-  color: @muted;
-}
-
-#battery.critical {
-  color: @danger;
-}
-
-#waybar .module:hover {
-  background-color: rgba(255,255,255,0.04);
-  border-radius: 6px;
-}
-
-#waybar .module {
-  padding: 6px 10px;
-  margin: 0 4px;
-  color: @text;
-}
-
-#workspaces button span {
-  font-weight: 600;
+    color: #ff5555;
 }

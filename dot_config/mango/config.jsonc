@@ -1,54 +1,90 @@
 {
+  "layer": "top",
+  "position": "top",
+  "height": 30,
+  "spacing": 4,
   "modules-left": [
-    "ext/workspaces",
-    "dwl/window"
+    "dwl/tags",
+    "clock",
+    "disk",
+    "memory"
   ],
-
+  "modules-center": [],
   "modules-right": [
-    "pulseaudio",
-    "cpu",
-    "memory",
-    "battery",
-    "clock"
+    "tray",
+    "group/audio",
+    "group/networking",
+    "battery"
   ],
 
-  "pulseaudio": {
-    "format": "{icon}   {volume}%",
-    "format-muted": " muted",
-    "format-icons": {
-      "default": ["", ""]
-    },
-    "scroll-step": 5
-  },
-
-  "cpu": {
-    "format": "CPU {usage}%"
-  },
-
-  "memory": {
-    "format": "RAM {used}MB"
-  },
-
-  "battery": {
-    "format": "{capacity}% {icon}",
-    "format-icons": ["", "", "", "", ""],
-    "critical-low": 10
+  "dwl/tags": {
+    "num-tags": 9
   },
 
   "clock": {
-    "format": "{:%Y-%m-%d %H:%M}",
-    "tooltip": false
+    "format": "{:%I:%M %p}",
+    "interval": 1,
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
   },
 
-  "ext/workspaces": {
-    "format": "{icon}",
-    "ignore-hidden": true,
-    "on-click": "activate",
-    "on-click-right": "deactivate",
-    "sort-by-id": true
+  "disk": {
+    "interval": 30,
+    "format": "   {percentage_used}%",
+    "path": "/"
   },
 
-  "dwl/window": {
-    "format": "[{layout}] {title}"
+  "memory": {
+    "format": "mem : {percentage}%"
+  },
+
+
+
+
+
+  "tray": {
+    "icon-size": 14,
+    "spacing": 10
+  },
+
+  "group/audio": {
+    "orientation": "horizontal",
+    "modules": [
+      "pulseaudio"
+    ]
+  },
+
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "",
+    "format-icons": {
+      "default": ["🕨", "🕩", "🕪"]
+    },
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "on-click-right": "pavucontrol"
+  },
+
+
+
+  "group/networking": {
+    "orientation": "horizontal",
+    "modules": [
+      "network"
+    ]
+  },
+
+  "network": {
+    "format-wifi": "   {essid}",
+    "format-ethernet": "󰈀",
+    "format-disconnected": "󱐅",
+    "tooltip-format": "{ipaddr}"
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{capacity}% {icon}",
+    "format-icons": ["󰪞", "󰪟", "󰪠", "󰪡", "󰪢", "󰪣", "󰪤", "󰪥"]
   }
 }

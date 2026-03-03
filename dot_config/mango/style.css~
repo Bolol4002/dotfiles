@@ -1,0 +1,55 @@
+@define-color bg #0b0b0b;
+@define-color muted #9a9a9a;
+@define-color accent #bfbfbf;
+@define-color danger #7a7a7a;
+@define-color text #e6e6e6;
+
+#waybar {
+  background-color: @bg;
+  color: @text;
+  font-family: "Inter", "Noto Sans", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.2px;
+}
+
+#workspaces button {
+  padding: 0 8px;
+  color: @muted;
+  border-radius: 4px;
+}
+
+#workspaces button.active {
+  background-color: rgba(191,191,191,0.14);
+  color: @text;
+  border-radius: 6px;
+}
+
+#battery,
+#cpu,
+#memory,
+#pulseaudio {
+  padding: 0 10px;
+}
+
+#pulseaudio.muted {
+  color: @muted;
+}
+
+#battery.critical {
+  color: @danger;
+}
+
+#waybar .module:hover {
+  background-color: rgba(255,255,255,0.04);
+  border-radius: 6px;
+}
+
+#waybar .module {
+  padding: 6px 10px;
+  margin: 0 4px;
+  color: @text;
+}
+
+#workspaces button span {
+  font-weight: 600;
+}
