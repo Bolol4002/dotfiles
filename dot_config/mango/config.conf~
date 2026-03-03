@@ -10,7 +10,7 @@ bind=SUPER,RETURN,spawn,kitty
 bind=SUPER+SHIFT,q,quit
 bind=SUPER,q,killclient,
 bind=SUPER+SHIFT,RETURN,spawn,wofi --show drun
-bind=SUPER,e,spawn,emacs
+bind=SUPER,e,spawn,nautilus
 bind=SUPER,r,reload_config
 bind=SUPER,b,spawn,vivaldi
 
@@ -110,5 +110,3 @@ gesturebind=none,right,3,focusdir,left
 gesturebind=none,up,4,toggleoverview
 gesturebind=none,left,4,viewtoright_have_client
 gesturebind=none,right,4,viewtoleft_have_client
-
-trackpad_natural_scrolling=1
