@@ -487,6 +487,64 @@ Projectile is a project interaction library for Emacs.
   (projectile-mode 1))
 #+end_src
 
+* PROGRAMMING LANGUAGES
+Language support for Python, C, C++, Java and Verilog.
+
+#+begin_src emacs-lisp
+(use-package python
+  :ensure nil
+  :mode ("\\.py\\'" . python-mode)
+  :custom
+  (python-shell-interpreter "python3"))
+
+(use-package cc-mode
+  :ensure nil
+  :mode (("\\.c\\'" . c-mode)
+         ("\\.h\\'" . c-mode)
+         ("\\.cpp\\'" . c++-mode)
+         ("\\.cc\\'" . c++-mode)
+         ("\\.cxx\\'" . c++-mode)
+         ("\\.hpp\\'" . c++-mode)
+         ("\\.hh\\'" . c++-mode)
+         ("\\.hxx\\'" . c++-mode)
+         ("\\.java\\'" . java-mode)))
+
+(use-package verilog-mode
+  :ensure nil
+  :mode (("\\.v\\'" . verilog-mode)
+         ("\\.sv\\'" . verilog-mode)
+         ("\\.vh\\'" . verilog-mode)
+         ("\\.svh\\'" . verilog-mode)))
+
+(use-package eglot
+  :ensure nil
+  :commands (eglot eglot-ensure)
+  :config
+  (defun sayooj/eglot-ensure-if-server-available ()
+    (let ((server-available
+           (cond
+            ((derived-mode-p 'python-mode)
+             (or (executable-find "pyright-langserver")
+                 (executable-find "pylsp")
+                 (executable-find "jedi-language-server")))
+            ((derived-mode-p 'c-mode 'c++-mode)
+             (executable-find "clangd"))
+            ((derived-mode-p 'java-mode)
+             (or (executable-find "jdtls")
+                 (executable-find "java-language-server")))
+            ((derived-mode-p 'verilog-mode)
+             (or (executable-find "verible-verilog-ls")
+                 (executable-find "svlangserver")))
+            (t nil))))
+      (when server-available
+        (eglot-ensure))))
+  :hook ((python-mode . sayooj/eglot-ensure-if-server-available)
+         (c-mode . sayooj/eglot-ensure-if-server-available)
+         (c++-mode . sayooj/eglot-ensure-if-server-available)
+         (java-mode . sayooj/eglot-ensure-if-server-available)
+         (verilog-mode . sayooj/eglot-ensure-if-server-available)))
+#+end_src
+
 * RAINBOW MODE
 Display the actual color as a background for any hex color value (ex. #ffffff).
 
