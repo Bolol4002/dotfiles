@@ -1,149 +1,105 @@
--- Keymaps – SPC leader, Doom Emacs style
-local map=function(mode,lhs,rhs,desc,opts)
-  opts=vim.tbl_extend("force",{noremap=true,silent=true,desc=desc},opts or{})
-  vim.keymap.set(mode,lhs,rhs,opts)
-end
+-- ================================================================================================
+-- TITLE: NeoVim keymaps
+-- ABOUT: sets some quality-of-life keymaps
+-- ================================================================================================
 
--- General
-map("n","<Esc>","<cmd>nohlsearch<CR>","Clear search hl")
-map("n","<leader>SPC","<cmd>Telescope commands<CR>","Command palette (M-x)")
+-- Center screen when jumping
+vim.keymap.set('n', 'n', 'nzzzv', { desc = 'Next search result (centered)' })
+vim.keymap.set('n', 'N', 'Nzzzv', { desc = 'Previous search result (centered)' })
+vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Half page down (centered)' })
+vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Half page up (centered)' })
 
--- Find/Files
-map("n","<leader>.","<cmd>Telescope find_files hidden=true<CR>","Find file (find-file)")
-map("n","<leader>ff","<cmd>Telescope find_files hidden=true<CR>","Find file")
-map("n","<leader>fr","<cmd>Telescope oldfiles<CR>","Recent files")
-map("n","<leader>fg","<cmd>Telescope live_grep<CR>","Live grep")
-map("n","<leader>fb","<cmd>Telescope buffers<CR>","Find buffer")
-map("n","<leader>fc",function()
-  require("telescope.builtin").find_files({cwd=vim.fn.stdpath("config"),hidden=true})
-end,"Find in nvim config")
-map("n","<leader>ft","<cmd>Neotree position=left dir=./ toggle<CR>","Project tree")
-map("n","<leader>fe","<cmd>Telescope file_browser<CR>","File browser")
+-- Buffer navigation
+vim.keymap.set('n', '<leader>bn', '<Cmd>bnext<CR>', { desc = 'Next buffer' })
+vim.keymap.set('n', '<leader>bp', '<Cmd>bprevious<CR>', { desc = 'Previous buffer' })
+vim.keymap.set('n', '<leader>bs', '<Cmd>set showtabline=2<CR>', { desc = 'Show tabline' })
+vim.keymap.set('n', '<Tab>', '<Cmd>bnext<CR>', { desc = 'Next buffer' })
+vim.keymap.set('n', '<S-Tab>', '<Cmd>bprevious<CR>', { desc = 'Previous buffer' })
 
--- Buffers
-map("n","<leader>bb","<cmd>Telescope buffers<CR>","Switch buffer")
-map("n","<leader>bk","<cmd>bd<CR>","Kill buffer")
-map("n","<leader>bn","<cmd>bnext<CR>","Next buffer")
-map("n","<leader>bp","<cmd>bprevious<CR>","Prev buffer")
-map("n","<leader>br","<cmd>e!<CR>","Reload buffer")
-map("n","<Tab>","<cmd>bnext<CR>","Next buffer")
-map("n","<S-Tab>","<cmd>bprevious<CR>","Prev buffer")
+-- Better window navigation
+vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'Move to left window' })
+vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Move to bottom window' })
+vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'Move to top window' })
+vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Move to right window' })
 
--- Windows
-map("n","<leader>wc","<C-w>q","Close window")
-map("n","<leader>wn","<C-w>n","New window")
-map("n","<leader>ws","<cmd>split<CR>","Horizontal split")
-map("n","<leader>wv","<cmd>vsplit<CR>","Vertical split")
-map("n","<leader>wh","<C-w>h","Window left")
-map("n","<leader>wj","<C-w>j","Window down")
-map("n","<leader>wk","<C-w>k","Window up")
-map("n","<leader>wl","<C-w>l","Window right")
-map("n","<leader>ww","<C-w>w","Next window")
-map("n","<leader>w=","<C-w>=","Balance windows")
-map("n","<C-Up>","<cmd>resize +2<CR>","Grow height")
-map("n","<C-Down>","<cmd>resize -2<CR>","Shrink height")
-map("n","<C-Left>","<cmd>vertical resize -2<CR>","Shrink width")
-map("n","<C-Right>","<cmd>vertical resize +2<CR>","Grow width")
+-- Splitting & Resizing
+vim.keymap.set('n', '<leader>sv', '<Cmd>vsplit<CR>', { desc = 'Split window vertically' })
+vim.keymap.set('n', '<leader>sh', '<Cmd>split<CR>', { desc = 'Split window horizontally' })
+vim.keymap.set('n', '<C-Up>', '<Cmd>resize +2<CR>', { desc = 'Increase window height' })
+vim.keymap.set('n', '<C-Down>', '<Cmd>resize -2<CR>', { desc = 'Decrease window height' })
+vim.keymap.set('n', '<C-Left>', '<Cmd>vertical resize -2<CR>', { desc = 'Decrease window width' })
+vim.keymap.set('n', '<C-Right>', '<Cmd>vertical resize +2<CR>', { desc = 'Increase window width' })
 
--- Toggle
-map("n","<leader>te","<cmd>lua _G.toggle_eshell()<CR>","Toggle eshell (float)")
-map("n","<leader>tv","<cmd>ToggleTerm direction=vertical<CR>","Toggle terminal (vsplit)")
-map("n","<leader>th","<cmd>ToggleTerm direction=horizontal<CR>","Toggle terminal (hsplit)")
-map("n","<leader>tl","<cmd>set nu! rnu!<CR>","Toggle line numbers")
-map("n","<leader>tt","<cmd>Neotree toggle<CR>","Toggle NeoTree (tree nav)")
+-- Better indenting in visual mode
+vim.keymap.set('v', '<', '<gv', { desc = 'Indent left and reselect' })
+vim.keymap.set('v', '>', '>gv', { desc = 'Indent right and reselect' })
 
--- Dired/Explorer
-map("n","<leader>dd","<cmd>Neotree reveal<CR>","Open file explorer")
-map("n","<leader>dj","<cmd>Neotree reveal_file=%:p<CR>","Reveal current file")
-map("n","<leader>dn","<cmd>Neotree toggle<CR>","Toggle NeoTree")
-map("n","<leader>db","<cmd>Telescope file_browser<CR>","Browse files")
+-- Better J behavior
+vim.keymap.set('n', 'J', 'mzJ`z', { desc = 'Join lines and keep cursor position' })
 
--- Marks/Bookmarks (Harpoon)
-map("n","<leader>ma",function() require("harpoon"):list():add() end,"Add bookmark")
-map("n","<leader>mm",function()
-  local h=require("harpoon")
-  h.ui:toggle_quick_menu(h:list())
-end,"Bookmark menu")
-map("n","<leader>m1",function() require("harpoon"):list():select(1) end,"Bookmark 1")
-map("n","<leader>m2",function() require("harpoon"):list():select(2) end,"Bookmark 2")
-map("n","<leader>m3",function() require("harpoon"):list():select(3) end,"Bookmark 3")
-map("n","<leader>m4",function() require("harpoon"):list():select(4) end,"Bookmark 4")
-map("n","<leader>mp",function() require("harpoon"):list():prev() end,"Prev bookmark")
-map("n","<leader>mn",function() require("harpoon"):list():next() end,"Next bookmark")
-map("n","<leader>md","<cmd>lua require('plugins.harpoon').add_dir()<CR>","Add dir bookmark")
+-- Keep last yanked when pasting
+vim.keymap.set('v', 'p', '"_dP', { noremap = true, silent = true })
 
--- Git
-map("n","<leader>gs","<cmd>Git<CR>","Git status")
-map("n","<leader>gb","<cmd>Telescope git_branches<CR>","Git branches")
-map("n","<leader>gc","<cmd>Telescope git_commits<CR>","Git commits")
-map("n","<leader>gd","<cmd>Gitsigns diffthis<CR>","Git diff")
-map("n","<leader>gp","<cmd>Gitsigns preview_hunk<CR>","Preview hunk")
-map("n","<leader>gr","<cmd>Gitsigns reset_hunk<CR>","Reset hunk")
-map("n","<leader>gS","<cmd>Gitsigns stage_hunk<CR>","Stage hunk")
+-- Save file with Ctrl+S
+vim.keymap.set({ 'n', 'i' }, '<C-s>', '<Cmd>w<CR>', { desc = 'Save file' })
 
--- LSP/Diagnostics
-map("n","<leader>ed","<cmd>Trouble diagnostics toggle<CR>","Diagnostics list")
-map("n","<leader>ef",function() vim.lsp.buf.format({async=true}) end,"Format buffer")
-map("n","<leader>er",vim.lsp.buf.rename,"Rename symbol")
-map("n","<leader>ea",vim.lsp.buf.code_action,"Code actions")
-map("n","<leader>ei",vim.lsp.buf.hover,"Hover info")
-map("n","gd",vim.lsp.buf.definition,"Go to definition")
-map("n","gi",vim.lsp.buf.implementation,"Implementation")
-map("n","gr","<cmd>Telescope lsp_references<CR>","References")
-map("n","K",vim.lsp.buf.hover,"Hover docs")
-map("n","[d",vim.diagnostic.goto_prev,"Prev diagnostic")
-map("n","]d",vim.diagnostic.goto_next,"Next diagnostic")
+-- Quick config editing
+vim.keymap.set('n', '<leader>rc', '<Cmd>e ~/.config/nvim/init.lua<CR>', { desc = 'Edit config' })
 
--- Help
-map("n","<leader>hd","<cmd>Dashboard<CR>","Dashboard")
-map("n","<leader>hf","<cmd>Telescope help_tags<CR>","Help tags")
-map("n","<leader>hm","<cmd>Mason<CR>","Mason")
-map("n","<leader>hl","<cmd>Lazy<CR>","Lazy")
-map("n","<leader>hc","<cmd>checkhealth<CR>","Health check")
+-- Reload nvim config and theme
+vim.keymap.set('n', '<leader>rr', function()
+  vim.cmd.source(vim.fn.stdpath 'config' .. '/init.lua')
+  require('utils.theme').load_theme()
+  vim.notify('Config and theme reloaded!', vim.log.levels.INFO)
+end, { desc = 'Reload config and theme' })
 
--- Org
-map("n","<leader>oa",function()
-  require("orgmode").action("agenda.prompt")
-end,"Org agenda")
-map("n","<leader>oc",function()
-  require("orgmode").action("capture.prompt")
-end,"Org capture")
+-- Reload current file (check for external changes)
+vim.keymap.set('n', '<leader>fl', '<Cmd>checktime<CR>', { desc = 'Reload file (check for changes)' })
 
--- Project
-map("n","<leader>pp","<cmd>Telescope project<CR>","Switch project")
-map("n","<leader>pf","<cmd>Telescope find_files<CR>","Find file in project")
-map("n","<leader>pg","<cmd>Telescope live_grep<CR>","Grep in project")
+-- Markdown keymaps
+vim.keymap.set('n', '<leader>mc', '<Cmd>MarkdownCheckbox<CR>', { desc = 'Toggle markdown checkbox' })
+vim.keymap.set('n', '<leader>mp', '<Cmd>MarkdownPreview<CR>', { desc = 'Open markdown preview' })
+vim.keymap.set('n', '<leader>mt', '<Cmd>MarkdownPreviewToggle<CR>', { desc = 'Toggle markdown preview' })
+vim.keymap.set('n', '<leader>ms', '<Cmd>MarkdownPreviewStop<CR>', { desc = 'Stop markdown preview' })
 
--- Comment
-map("n","<leader><tab><tab>",function()
-  require("Comment.api").toggle.linewise.current()
-end,"Comment line")
-map("v","<leader><tab><tab>",function()
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>",true,false,true),"nx",false)
-  require("Comment.api").toggle.linewise(vim.fn.visualmode())
-end,"Comment region")
+-- "Normy" Clipboard Operations (mouse-friendly)
+-- Copy operations
+vim.keymap.set('n', '<leader>yy', 'yy', { desc = 'Copy line' })
+vim.keymap.set('n', '<leader>y$', 'y$', { desc = 'Copy to end of line' })
+vim.keymap.set('n', '<leader>yw', 'yiw', { desc = 'Copy word' })
+vim.keymap.set('n', '<leader>yW', 'yiW', { desc = 'Copy WORD' })
+vim.keymap.set('n', '<leader>yp', 'yyp', { desc = 'Copy line and paste below' })
+vim.keymap.set('n', '<leader>yP', 'yyP', { desc = 'Copy line and paste above' })
 
--- Tabs
-map("n","<leader><tab>n","<cmd>tabnew<CR>","New tab")
-map("n","<leader><tab>c","<cmd>tabclose<CR>","Close tab")
-map("n","<leader><tab>]","<cmd>tabnext<CR>","Next tab")
-map("n","<leader><tab>[","<cmd>tabprev<CR>","Prev tab")
+-- Paste operations
+vim.keymap.set('n', '<leader>pp', 'p', { desc = 'Paste after cursor' })
+vim.keymap.set('n', '<leader>pP', 'P', { desc = 'Paste before cursor' })
+vim.keymap.set('n', '<leader>gp', '"0p', { desc = 'Paste without overwriting register' })
+vim.keymap.set('n', '<leader>gP', '"0P', { desc = 'Paste before without overwriting' })
 
--- Clipboard helpers (on top of unnamedplus)
-map({"n","v"},"<leader>y",'"+y',"Yank → system clipboard")
-map("n","<leader>Y",'"+Y',"Yank line → system clipboard")
-map("n","<leader>P",'"+p',"Paste ← system clipboard")
-map("v","p",'"_dP',"Paste (keep register)")
+-- Cut operations
+vim.keymap.set('n', '<leader>xx', 'dd', { desc = 'Cut line' })
+vim.keymap.set('n', '<leader>x$', 'd$', { desc = 'Cut to end of line' })
+vim.keymap.set('n', '<leader>xw', 'diw', { desc = 'Cut word' })
+vim.keymap.set('n', '<leader>xW', 'diW', { desc = 'Cut WORD' })
 
--- Better scrolling
-map("n","<C-d>","<C-d>zz","Scroll down centred")
-map("n","<C-u>","<C-u>zz","Scroll up centred")
-map("n","n","nzzzv","Next result centred")
-map("n","N","Nzzzv","Prev result centred")
-
--- Terminal
-map("t","<Esc><Esc>","<C-\\><C-n>","Exit terminal mode")
-map("t","<C-h>","<C-\\><C-n><C-w>h","Term→left")
-map("t","<C-j>","<C-\\><C-n><C-w>j","Term→down")
-map("t","<C-k>","<C-\\><C-n><C-w>k","Term→up")
-map("t","<C-l>","<C-\\><C-n><C-w>l","Term→right")
+-- Auto-open file explorer when opening a directory (debug version)
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'VeryLazy',
+  callback = function()
+    -- Debug: show a notification to see if this runs
+    vim.notify('VeryLazy event fired! argc=' .. vim.fn.argc(), vim.log.levels.INFO)
+    local argc = vim.fn.argc()
+    if argc == 1 then
+      local arg = vim.fn.argv(0)
+      local stat = vim.loop.fs_stat(arg)
+      if stat and stat.type == 'directory' then
+        vim.notify('Opening explorer for: ' .. arg, vim.log.levels.INFO)
+        -- Simple approach: trigger the file explorer mapping
+        vim.defer_fn(function()
+          vim.cmd('normal! \\<leader>e')
+        end, 100)
+      end
+    end
+  end,
+})
