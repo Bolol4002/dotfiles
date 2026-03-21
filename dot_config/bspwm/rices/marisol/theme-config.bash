@@ -106,5 +106,5 @@ geany_theme="z0mbi3-Dracula"
 ENGINE="Default"
 
 CUSTOM_DIR="/path/to/your/wallpapers/directory"
-DEFAULT_WALL="$HOME/.config/bspwm/rices/marisol/walls/wall-01.webp"
+DEFAULT_WALL="/home/sayooj/.config/bspwm/rices/marisol/walls/wall-07.webp"
 ANIMATED_WALL="$HOME/.config/bspwm/config/assets/animated_wall.mp4"
