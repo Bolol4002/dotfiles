@@ -1,50 +1,52 @@
--- ================================================================================================
--- TITLE : which-key
--- ABOUT : WhichKey helps you remember your Neovim keymaps, by showing keybindings as you type.
--- LINKS :
---   > github : https://github.com/folke/which-key.nvim
--- ================================================================================================
-
 return {
-  'folke/which-key.nvim',
-  event = 'VeryLazy',
-  opts = {
-    preset = 'helix',
-    delay = 200, -- Show popup after 200ms (faster for better UX)
-    spec = {
-      { '<leader>b', group = 'Buffer' },
-      { '<leader>d', group = 'Debug' },
-      { '<leader>f', group = 'Files' },
-      { '<leader>g', group = 'Git' },
-      { '<leader>S', group = 'Settings' },
-      { '<leader>?', hidden = true },
-      { '<leader>,', hidden = true },
-      { '<leader>.', hidden = true },
-      { '<leader>/', hidden = true },
-      { '<leader>:', hidden = true },
-      { '<leader>n', hidden = true },
-      { '<leader>N', hidden = true },
-      { '<leader>z', hidden = true },
-      { '<leader>Z', hidden = true },
-      { '<leader><space>', desc = 'Smart Find Files' },
-      { '<leader>c', hidden = true },
-      { '<leader>m', hidden = true },
-      { '<leader>p', hidden = true },
-      { '<leader>q', hidden = true },
-      { '<leader>r', hidden = true },
-      { '<leader>s', hidden = true },
-      { '<leader>u', hidden = true },
-      { '<leader>x', hidden = true },
-      { '<leader>y', hidden = true },
-    },
-  },
-  keys = {
-    {
-      '<leader>?',
-      function()
-        require('which-key').show { global = false }
-      end,
-      desc = 'Buffer Local Keymaps (which-key)',
-    },
-  },
+	"folke/which-key.nvim",
+	event = "VimEnter",
+	opts = {
+		delay = 0,
+		icons = {
+			-- set icon mappings to true if you have a Nerd Font
+			mappings = vim.g.have_nerd_font,
+			-- If you are using a Nerd Font: set icons.keys to an empty table which will use the
+			-- default which-key.nvim defined Nerd Font icons, otherwise define a string table
+			keys = vim.g.have_nerd_font and {} or {
+				Up = "<Up> ",
+				Down = "<Down> ",
+				Left = "<Left> ",
+				Right = "<Right> ",
+				C = "<C-…> ",
+				M = "<M-…> ",
+				D = "<D-…> ",
+				S = "<S-…> ",
+				CR = "<CR> ",
+				Esc = "<Esc> ",
+				ScrollWheelDown = "<ScrollWheelDown> ",
+				ScrollWheelUp = "<ScrollWheelUp> ",
+				NL = "<NL> ",
+				BS = "<BS> ",
+				Space = "<Space> ",
+				Tab = "<Tab> ",
+				F1 = "<F1>",
+				F2 = "<F2>",
+				F3 = "<F3>",
+				F4 = "<F4>",
+				F5 = "<F5>",
+				F6 = "<F6>",
+				F7 = "<F7>",
+				F8 = "<F8>",
+				F9 = "<F9>",
+				F10 = "<F10>",
+				F11 = "<F11>",
+				F12 = "<F12>",
+			},
+		},
+	},
+	keys = {
+		{
+			"<leader>?",
+			function()
+				require("which-key").show({ global = false })
+			end,
+			desc = "Buffer Local Keymaps (which-key)",
+		},
+	},
 }
