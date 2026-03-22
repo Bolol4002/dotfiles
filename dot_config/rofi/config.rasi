@@ -1,0 +1,50 @@
+* {
+    bg: #282828;
+    bg-alt: #3c3836;
+    fg: #ebdbb2;
+    accent: #fabd2f;
+
+    font: "JetBrains Mono 12";
+}
+
+window {
+    location: center;
+    width: 30%;
+    border: 2px;
+    border-radius: 8px;
+    border-color: @accent;
+    background-color: @bg;
+}
+
+mainbox {
+    padding: 10px;
+    background-color: @bg;
+}
+
+inputbar {
+    padding: 8px;
+    background-color: @bg-alt;
+    border-radius: 6px;
+}
+
+entry {
+    background-color: transparent;
+    text-color: @fg;
+}
+
+listview {
+    lines: 5;
+    spacing: 5px;
+    padding: 5px;
+    background-color: @bg;
+}
+
+element {
+    padding: 6px;
+    border-radius: 4px;
+}
+
+element selected {
+    background-color: @accent;
+    text-color: #000000;
+}

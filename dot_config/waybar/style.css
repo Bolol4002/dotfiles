@@ -1,12 +1,12 @@
-/* Minimal black & white style for Waybar */
+/* Gruvbox theme for Waybar */
 
 window#waybar {
-  background: #000000;
-  color: #ffffff;
+  background: #282828;
+  color: #ebdbb2;
   border: none;
   padding: 4px 6px;
-  font-family: Ubuntu Nerd Font, sans-serif;
-  font-size: 12px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 15px;
 }
 
 /* Remove group backgrounds/borders */
@@ -28,31 +28,27 @@ window#waybar {
   padding: 0 8px;
 }
 
-/* Hide icons */
-/*
-.module .icon,
-.icon {
-  display: none;
-}
-*/
-
 /* Workspaces */
 #workspaces button {
   background: transparent;
-  color: #ffffff;
+  color: #ebdbb2;
   padding: 0 6px;
   border: none;
 }
 
+/* Active workspace */
 #workspaces button.focused {
+  color: #fabd2f;
   text-decoration: underline;
 }
 
-/* Optional hover */
-/*
+/* Hover effect (subtle gruvbox) */
 button:hover,
 .module:hover {
-  background: rgba(255,255,255,0.03);
+  background: rgba(250, 189, 47, 0.08);
 }
-*/
 
+/* Optional: urgent workspace */
+#workspaces button.urgent {
+  color: #fb4934;
+}
