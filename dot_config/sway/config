@@ -1,96 +1,71 @@
-### Variables
-#
-# Logo key. Use Mod1 for Alt.
 set $mod Mod4
-bindsym Print exec grimshot save screen
-bindsym Shift+Print exec grimshot save area
-bindsym Ctrl+Print exec grimshot copy area
-
-# Home row direction keys, like vim
 set $left h
 set $down j
 set $up k
 set $right l
-# Your preferred terminal emulator
-set $term kitty
-# Your preferrced application launcher
-# Note: pass the final command to swaymsg so that the resulting window can be opened
-# on the original workspace that the command was run on.
-set $menu wofi --show drun 
-include /etc/sway/config-vars.d/*
-
-### Output configuration
-#
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /home/sayooj/.config/sway/cat.png fill
+set $term ghostty
 
 ###  configuration
 gaps inner 2
 gaps outer 2
 
-### Autostart Waybar
-exec_always waybar
+bindsym Print exec grimshot save screen
+bindsym Shift+Print exec grimshot save area
+bindsym Ctrl+Print exec grimshot copy area
 
-### Toggle Waybar
-bindsym $mod+Shift+b exec pkill -USR1 waybar
-
-### Idle configuration
-#
-# Example configuration:
-#
- exec swayidle -w \
-          timeout 300 'swaylock -f -c 000000' \
-          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-          before-sleep 'swaylock -f -c 000000'
-
-### Input configuration
-#
-input "type:touchpad" {
-    left_handed enabled
-    tap enabled
-    natural_scroll enabled
-    dwt enabled
-    accel_profile "flat"
-    pointer_accel 0.5
-}
-
-### Key bindings
-#
-# Basics:
-#
+#waybar
+exec waybar -c /home/sayooj/.config/sway/waybar/config -s /home/sayooj/.config/sway/waybar/style.css
+# Your preferred application launcher
+set $menu rofi -show drun
+output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+    # Start a terminal
     bindsym $mod+Return exec $term
+
+    # Kill focused window
     bindsym $mod+q kill
+
+    # Start your launcher
     bindsym $mod+Shift+Return exec $menu
 
     floating_modifier $mod normal
 
-    bindsym $mod+Shift+c reload
+    # Reload the configuration file
+    bindsym $mod+Shift+r reload
+
+    # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+q exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
+    bindsym $mod+b exec librewolf
+
+	
 #
 # Moving around:
 #
+    # Move your focus around
     bindsym $mod+$left focus left
     bindsym $mod+$down focus down
     bindsym $mod+$up focus up
     bindsym $mod+$right focus right
+    # Or use $mod+[up|down|left|right]
     bindsym $mod+Left focus left
     bindsym $mod+Down focus down
     bindsym $mod+Up focus up
     bindsym $mod+Right focus right
 
+    # Move the focused window with the same, but add Shift
     bindsym $mod+Shift+$left move left
     bindsym $mod+Shift+$down move down
     bindsym $mod+Shift+$up move up
     bindsym $mod+Shift+$right move right
+    # Ditto, with arrow keys
     bindsym $mod+Shift+Left move left
     bindsym $mod+Shift+Down move down
     bindsym $mod+Shift+Up move up
     bindsym $mod+Shift+Right move right
-
 #
 # Workspaces:
 #
+    # Switch to workspace
     bindsym $mod+1 workspace number 1
     bindsym $mod+2 workspace number 2
     bindsym $mod+3 workspace number 3
@@ -101,7 +76,7 @@ input "type:touchpad" {
     bindsym $mod+8 workspace number 8
     bindsym $mod+9 workspace number 9
     bindsym $mod+0 workspace number 10
-
+    # Move focused container to workspace
     bindsym $mod+Shift+1 move container to workspace number 1
     bindsym $mod+Shift+2 move container to workspace number 2
     bindsym $mod+Shift+3 move container to workspace number 3
@@ -112,67 +87,93 @@ input "type:touchpad" {
     bindsym $mod+Shift+8 move container to workspace number 8
     bindsym $mod+Shift+9 move container to workspace number 9
     bindsym $mod+Shift+0 move container to workspace number 10
-
+    # Note: workspaces can have any name you want, not just numbers.
+    # We just use 1-10 as the default.
 #
 # Layout stuff:
 #
-    bindsym $mod+b splith
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    bindsym $mod+Shift+b splith
     bindsym $mod+v splitv
+
+    # Switch the current container between different layout styles
     bindsym $mod+s layout stacking
     bindsym $mod+w layout tabbed
     bindsym $mod+e layout toggle split
-    bindsym $mod+f fullscreen
-    bindsym $mod+Shift+space floating toggle
-    bindsym $mod+space focus mode_toggle
-    bindsym $mod+a focus parent
 
+    # Make the current focus fullscreen
+    bindsym $mod+f thunar
+    bindsym $mod+Shift+f fullscreen toggle
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+    # Move focus to the parent container
+    bindsym $mod+a focus parent
 #
 # Scratchpad:
 #
-    bindsym $mod+Shift+minus move scratchpad
-    bindsym $mod+minus scratchpad show
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
 
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
 #
 # Resizing containers:
 #
 mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
     bindsym $left resize shrink width 10px
     bindsym $down resize grow height 10px
     bindsym $up resize shrink height 10px
     bindsym $right resize grow width 10px
 
+    # Ditto, with arrow keys
     bindsym Left resize shrink width 10px
     bindsym Down resize grow height 10px
     bindsym Up resize shrink height 10px
     bindsym Right resize grow width 10px
 
+    # Return to default mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
+# Touchpad configuration
 
-#
-# Volume controls
-#
+input "type:touchpad" {
+    left_handed enabled
+    tap enabled
+    natural_scroll enabled
+    dwt enabled
+    accel_profile "flat"
+    pointer_accel 0.5
+}
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-
 # F7 / F8 volume keys
 bindsym F7 exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym F8 exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-
 #
 # Brightness controls
 #
 bindsym XF86MonBrightnessUp exec brightnessctl set +10%
 bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
-
 # F2 / F3 brightness keys
 bindsym F2 exec brightnessctl set 10%-
 bindsym F3 exec brightnessctl set +10%
-
-#
 default_border pixel 2
 client.focused "#ffffff" "#ffffff" "#000000"
-
 include /etc/sway/config.d/*

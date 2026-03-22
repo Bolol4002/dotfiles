@@ -1,0 +1,85 @@
+/**
+ * Minimal Monochromatic Rofi Config
+ */
+
+configuration {
+    modi: "run,drun,window";
+    show-icons: false;
+    terminal: "alacritty";
+    drun-display-format: "{name}";
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: true;
+    display-drun: "   Apps ";
+    display-run: "   Run ";
+    display-window: " 󰕰  Window ";
+    sidebar-mode: true;
+}
+
+@theme "/dev/null"
+
+* {
+    bg: #111111;
+    fg: #eeeeee;
+    accent: #ffffff;
+    button: #222222;
+
+    background-color: @bg;
+    text-color: @fg;
+}
+
+window {
+    transparency: "real";
+    width: 400px;
+    border: 2px;
+    border-color: @accent;
+    border-radius: 8px;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+    padding: 10px;
+}
+
+inputbar {
+    children: [ prompt, entry ];
+    background-color: @button;
+    border-radius: 4px;
+    margin: 5px;
+    padding: 5px;
+}
+
+prompt {
+    background-color: @accent;
+    text-color: @bg;
+    padding: 5px;
+    border-radius: 2px;
+}
+
+entry {
+    placeholder: "Search...";
+    padding: 5px;
+}
+
+listview {
+    lines: 6;
+    columns: 1;
+    fixed-height: true;
+    layout: vertical;
+}
+
+element {
+    padding: 8px;
+    margin: 2px 5px;
+    border-radius: 4px;
+}
+
+element selected {
+    background-color: @accent;
+    text-color: @bg;
+}
+
+element-text {
+    background-color: inherit;
+    text-color: inherit;
+}
