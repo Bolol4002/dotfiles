@@ -6,7 +6,7 @@ set $right l
 set $term ghostty
 set $menu rofi -show drun
 
-exec_always waybar
+exec waybar
 exec_always mako
 exec_always swayidle -w \
   timeout 300 'swaylock -f -c 000000' \
@@ -18,7 +18,7 @@ gaps inner 2
 gaps outer 2
 default_border pixel 2
 client.focused "#ffffff" "#ffffff" "#000000"
-exec_always swaybg -i /home/sayooj/Downloads/fluid-art.jpg -m fill 
+exec_always swaybg -i /home/sayooj/.config/sway/wall.png -m fill 
    input type:touchpad {
        dwt enabled
        tap enabled
@@ -31,7 +31,7 @@ exec_always swaybg -i /home/sayooj/Downloads/fluid-art.jpg -m fill
     bindsym Mod1+l exec swaylock -f -c 000000
     # Start a terminal
     bindsym $mod+Return exec $term
-    bindsym Mod1+Space exec firefox
+    bindsym Mod1+Space exec librewolf
     # file manager
     bindsym $mod+f exec ghostty -e ranger
     # network manager
