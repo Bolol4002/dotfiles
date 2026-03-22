@@ -15,6 +15,11 @@ Currently
 ```
 chezmoi init https://github.com/Bolol4002/dotfiles.git   # clone dotfiles into chezmoi source dir
 ```
+### git store
+```
+ git config --global credential.helper store 
+```
+
 
 ### Preview changes
 
