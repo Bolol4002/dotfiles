@@ -31,7 +31,7 @@ exec_always swaybg -i /home/sayooj/.config/sway/wall.png -m fill
     bindsym Mod1+l exec swaylock -f -c 000000
     # Start a terminal
     bindsym $mod+Return exec $term
-    bindsym Mod1+Space exec librewolf
+    bindsym Mod1+Space exec zen-browser
     # file manager
     bindsym $mod+f exec ghostty -e ranger
     # network manager
