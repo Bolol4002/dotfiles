@@ -1,0 +1,6 @@
+export EDITOR="nvim"
+export VISUAL="nvim"
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+PS1='[\u@\h \W]\$ '
+export PATH="$HOME/.config/sb:$PATH"

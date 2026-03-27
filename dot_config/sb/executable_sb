@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+# sb - simple second brain CLI
+
+# location of your brain
+BRAIN="$HOME/second_brain"
+DAILY_DIR="$BRAIN/daily-notes"
+WEEKLY_DIR="$BRAIN/weekly-notes"
+TEMPLATE_DIR="$BRAIN/templates"
+EDITOR="${EDITOR:-nvim}"
+
+# go to brain folder first
+cd "$BRAIN" || { echo "Failed to cd into $BRAIN"; exit 1; }
+
+mkdir -p "$DAILY_DIR" "$WEEKLY_DIR"
+
+# Helper: ensure daily note exists
+ensure_daily() {
+    local today
+    today=$(date +%Y-%m-%d)
+    local daily_note="$DAILY_DIR/$today.md"
+    if [ ! -f "$daily_note" ]; then
+        mkdir -p "$DAILY_DIR"
+        touch "$daily_note"
+        echo "# Daily Note: $today" >> "$daily_note"
+    fi
+    echo "$daily_note"
+}
+
+case "$1" in
+    day)
+        daily_note=$(ensure_daily)
+        $EDITOR "$daily_note"
+        ;;
+    week)
+        # Week format YYYY-Www
+        week=$(date +%Y-W%V)
+        mkdir -p "$WEEKLY_DIR/$week"
+        $EDITOR "$WEEKLY_DIR/$week/index.md"
+        ;;
+    new)
+        shift
+        if [ -z "$1" ]; then
+            echo "Usage: sb new \"NOTE TITLE\""
+            exit 1
+        fi
+        note_title="$*"
+        note_file="$BRAIN/$(date +%Y-%m-%d)-${note_title// /_}.md"
+        touch "$note_file"
+        echo "# $note_title" >> "$note_file"
+
+        # Link in today's daily note
+        daily_note=$(ensure_daily)
+        link="[$note_title]($(realpath --relative-to="$BRAIN" "$note_file"))"
+        echo "- $link" >> "$daily_note"
+
+        $EDITOR "$note_file"
+        ;;
+    fzf)
+        # Fuzzy find any file and open in editor
+        file=$(fzf)
+        [ -n "$file" ] && $EDITOR "$file"
+        ;;
+    rg)
+        # Search inside notes using ripgrep
+        shift
+        rg "$*"
+        ;;
+    *)
+        echo "sb CLI - commands:"
+        echo "  sb             → go to brain folder"
+        echo "  sb day         → open today's daily note"
+        echo "  sb week        → open this week's folder note"
+        echo "  sb new \"TITLE\" → create a new note, link in daily"
+        echo "  sb fzf         → fuzzy find a note and open"
+        echo "  sb rg SEARCH   → search inside notes"
+        ;;
+esac
