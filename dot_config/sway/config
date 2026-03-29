@@ -18,7 +18,7 @@ gaps inner 2
 gaps outer 2
 default_border pixel 2
 client.focused "#ffffff" "#ffffff" "#000000"
-exec_always swaybg -i /home/sayooj/.config/sway/wall.png -m fill 
+exec_always swaybg -i /home/sayooj/.config/sway/wall2.png -m fill 
    input type:touchpad {
        dwt enabled
        tap enabled
