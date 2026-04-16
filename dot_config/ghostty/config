@@ -47,5 +47,5 @@ keybind = shift+enter=text:\n
 # Rando stuff
 gtk-single-instance = true
 
-# Dank color generation
-theme = noctalia
+# Pywal16 generated colors (regenerated on every login)
+config-file = /home/sayooj/.cache/wal/ghostty.conf

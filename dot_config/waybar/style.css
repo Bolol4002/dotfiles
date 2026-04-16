@@ -1,12 +1,12 @@
-/* Gruvbox theme for Waybar */
+@import url("file:///home/sayooj/.cache/wal/colors-waybar.css");
 
 window#waybar {
-  background: #282828;
-  color: #ebdbb2;
-  border: none;
-  padding: 4px 6px;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 15px;
+    background: @background;
+    color: @foreground;
+    border: none;
+    padding: 4px 6px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 15px;
 }
 
 /* Remove group backgrounds/borders */
@@ -17,38 +17,38 @@ window#waybar {
 #controls,
 #systray,
 #ncandpower {
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
 }
 
 /* Modules spacing */
 .module {
-  padding: 0 8px;
+    padding: 0 8px;
 }
 
 /* Workspaces */
 #workspaces button {
-  background: transparent;
-  color: #ebdbb2;
-  padding: 0 6px;
-  border: none;
+    background: transparent;
+    color: @foreground;
+    padding: 0 6px;
+    border: none;
 }
 
 /* Active workspace */
 #workspaces button.focused {
-  color: #fabd2f;
-  text-decoration: underline;
+    color: @color3;
+    text-decoration: underline;
 }
 
-/* Hover effect (subtle gruvbox) */
+/* Hover effect */
 button:hover,
 .module:hover {
-  background: rgba(250, 189, 47, 0.08);
+    background: alpha(@color3, 0.08);
 }
 
-/* Optional: urgent workspace */
+/* Urgent workspace */
 #workspaces button.urgent {
-  color: #fb4934;
+    color: @color1;
 }

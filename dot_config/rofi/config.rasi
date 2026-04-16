@@ -1,50 +1,82 @@
-* {
-    bg: #282828;
-    bg-alt: #3c3836;
-    fg: #ebdbb2;
-    accent: #fabd2f;
+@import "/home/sayooj/.cache/wal/colors-rofi-dark.rasi"
 
+* {
     font: "JetBrains Mono 12";
 }
 
-window {
+#window {
     location: center;
     width: 30%;
     border: 2px;
     border-radius: 8px;
-    border-color: @accent;
-    background-color: @bg;
-}
-
-mainbox {
+    border-color: @active-background;
     padding: 10px;
-    background-color: @bg;
 }
 
-inputbar {
+#mainbox {
+    padding: 0;
+    background-color: @background;
+}
+
+#inputbar {
     padding: 8px;
-    background-color: @bg-alt;
     border-radius: 6px;
+    background-color: @background-color;
+    spacing: 0;
 }
 
-entry {
+#entry {
     background-color: transparent;
-    text-color: @fg;
+    text-color: @normal-foreground;
+    spacing: 0;
 }
 
-listview {
+#prompt {
+    spacing: 0;
+    text-color: @normal-foreground;
+}
+
+#textbox-prompt-colon {
+    expand: false;
+    str: ":";
+    margin: 0px 0.3em 0em 0em;
+    text-color: @normal-foreground;
+}
+
+#listview {
     lines: 5;
     spacing: 5px;
     padding: 5px;
-    background-color: @bg;
+    background-color: @background;
+    fixed-height: 0;
+    border: 2px 0px 0px;
+    border-color: @active-background;
+    scrollbar: false;
 }
 
-element {
+#element {
     padding: 6px;
     border-radius: 4px;
+    border: 0;
 }
 
-element selected {
-    background-color: @accent;
-    text-color: #000000;
+#element.normal.normal {
+    background-color: @normal-background;
+    text-color: @normal-foreground;
+}
+
+#element.selected.normal {
+    background-color: @selected-normal-background;
+    text-color: @selected-normal-foreground;
+}
+
+#element.alternate.normal {
+    background-color: @alternate-normal-background;
+    text-color: @alternate-normal-foreground;
+}
+
+#element-text,
+element-icon {
+    background-color: inherit;
+    text-color: inherit;
 }
