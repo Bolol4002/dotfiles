@@ -1,54 +1,70 @@
 @import url("file:///home/sayooj/.cache/wal/colors-waybar.css");
 
-window#waybar {
-    background: @background;
-    color: @foreground;
-    border: none;
-    padding: 4px 6px;
-    font-family: "JetBrains Mono", monospace;
+* {
     font-size: 15px;
+    font-family: JetBrains Mono;
 }
 
-/* Remove group backgrounds/borders */
-#menu,
-#datetime,
-#workspacegroup,
-#stats,
-#controls,
-#systray,
-#ncandpower {
-    background: transparent;
-    border: none;
-    padding: 0;
-    margin: 0;
-}
-
-/* Modules spacing */
-.module {
-    padding: 0 8px;
-}
-
-/* Workspaces */
-#workspaces button {
-    background: transparent;
+window#waybar {
+    background: @color8;
     color: @foreground;
-    padding: 0 6px;
-    border: none;
 }
 
-/* Active workspace */
+#custom-right-arrow-dark,
+#custom-left-arrow-dark {
+    color: @background;
+}
+#custom-right-arrow-light,
+#custom-left-arrow-light {
+    color: @color8;
+    background: @background;
+}
+
+#workspaces,
+#clock.1,
+#clock.2,
+#clock.3,
+#pulseaudio,
+#memory,
+#cpu,
+#battery {
+    background: @background;
+}
+
+#workspaces button {
+    padding: 0 2px;
+    color: @foreground;
+}
 #workspaces button.focused {
-    color: @color3;
-    text-decoration: underline;
+    color: @color4;
+}
+#workspaces button:hover {
+    box-shadow: inherit;
+    text-shadow: inherit;
+}
+#workspaces button:hover {
+    background: @background;
+    border: @background;
+    padding: 0 3px;
 }
 
-/* Hover effect */
-button:hover,
-.module:hover {
-    background: alpha(@color3, 0.08);
+#pulseaudio {
+    color: @color7;
+}
+#memory {
+    color: @color6;
+}
+#cpu {
+    color: @color5;
+}
+#battery {
+    color: @color4;
 }
 
-/* Urgent workspace */
-#workspaces button.urgent {
-    color: @color1;
+#clock,
+#pulseaudio,
+#memory,
+#cpu,
+#battery {
+    padding: 0 10px;
 }
