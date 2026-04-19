@@ -8,7 +8,8 @@ Currently
 - fastfetch
 - sway
 - waybar
-
+- rofi
+- emacs
 ---
 ### Initialize from repo
 
