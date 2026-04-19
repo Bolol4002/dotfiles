@@ -25,5 +25,5 @@ disown
 # Restart waybar so it sources the freshly generated colors-waybar.css.
 pkill waybar 2>/dev/null
 sleep 0.3
-waybar &
+waybar -c ~/.config/waybar/sway/config -s ~/.config/waybar/sway/style.css &
 disown
