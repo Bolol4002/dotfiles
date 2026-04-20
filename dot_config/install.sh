@@ -27,7 +27,7 @@ warn() {
 }
 
 # Prevent root execution
-[ "$EUID" -eq 0 ] && error "Do not run as root"
+[ "$(id -u)" -eq 0 ] && error "Do not run as root"
 
 log "Starting dotfiles installation..."
 
@@ -138,14 +138,14 @@ backup_dotfiles() {
     for dir in "${CONFIG_DIRS[@]}"; do
         if [ -e "$HOME/.config/$dir" ]; then
             mkdir -p "$backup_dir/.config"
-            mv "$HOME/.config/$dir" "$backup_dir/.config/"
+            cp -r "$HOME/.config/$dir" "$backup_dir/.config/"
             log "Backed up .config/$dir"
         fi
     done
 
     for file in .bashrc .zshrc .gitconfig; do
         if [ -e "$HOME/$file" ]; then
-            mv "$HOME/$file" "$backup_dir/"
+            cp "$HOME/$file" "$backup_dir/"
             log "Backed up $file"
         fi
     done
@@ -154,7 +154,7 @@ backup_dotfiles() {
 backup_dotfiles
 
 log "Initializing chezmoi..."
-chezmoi init "$REPO"
+chezmoi init "$REPO" || error "Failed to initialize chezmoi"
 
 # Optional diff preview
 read -rp "Preview changes? [y/N]: " -n 1 -r
@@ -167,7 +167,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 log "Applying dotfiles..."
-chezmoi apply
+chezmoi apply || error "Failed to apply dotfiles"
 
 log "Enabling NetworkManager..."
 sudo systemctl enable --now NetworkManager
