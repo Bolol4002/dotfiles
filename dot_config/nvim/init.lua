@@ -203,10 +203,30 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 -- Set filetype-specific settings
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup,
-  pattern = { "lua", "python" },
+  pattern = { "lua", "python", "java" },
   callback = function()
     vim.opt_local.tabstop = 4
     vim.opt_local.shiftwidth = 4
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = { "verilog", "systemverilog" },
+  callback = function()
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.expandtab = true
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = { "cpp", "c" },
+  callback = function()
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.expandtab = true
   end,
 })
 
@@ -484,7 +504,10 @@ local function file_type()
     go = "\u{e724} ",            -- nf-dev-go
     c = "\u{e61e} ",             -- nf-dev-c
     cpp = "\u{e61d} ",           -- nf-dev-cplusplus
+    c = "\u{e61e} ",             -- nf-dev-c
     java = "\u{e738} ",          -- nf-dev-java
+    verilog = "\u{e62b} ",       -- nf-dev-vim (using vim icon)
+    systemverilog = "\u{e62b} ", -- nf-dev-vim
     php = "\u{e73d} ",           -- nf-dev-php
     ruby = "\u{e739} ",          -- nf-dev-ruby
     swift = "\u{e755} ",         -- nf-dev-swift
