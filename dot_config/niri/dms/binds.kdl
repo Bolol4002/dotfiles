@@ -5,6 +5,8 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // === Application Launchers ===
+    Alt+Space hotkey-overlay-title="Open browser" { spawn "brave-browser"; }
+    Alt+F hotkey-overlay-title="Open Yazi" { spawn "ghostty" "-e" "yazi"; }
     Mod+Return hotkey-overlay-title="Open Terminal" { spawn "ghostty"; }
     Mod+Shift+Return hotkey-overlay-title="Application Launcher" {
         spawn "dms" "ipc" "call" "spotlight" "toggle";
